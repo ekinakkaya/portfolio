@@ -26,13 +26,14 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen p-8 justify-center sm:flex-row sm:items-center sm:gap-16">
-      <div className="max-w-2xl max-h-2xl animate__animated animate__fadeInLeft">
+      <div className="max-w-2xl max-h-2xl w-48 h-48 animate__animated animate__fadeInLeft overflow-hidden">
         <Image
           // src="https://placehold.co/400"
-          src="/public/ekin.jpg"
+          // src="/public/ekin.jpg"
+          src={"https://github.com/ekinakkaya/portfolio/blob/18ceb02f9695043c8b9d4e86855f6775f1fc58a6/public/ekin.jpg?raw=true"}
           alt="Picture of the author"
-          width={200}
-          height={200}
+          width={300}
+          height={300}
           className=""
           // placeholder="blur"
         />
