@@ -1,14 +1,12 @@
 "use client";
-import TechStack from "@/components/TechStack";
 import Link from "next/link";
 import React, { useState } from "react";
-import { FaAngleDoubleDown, FaAngleDoubleUp } from "react-icons/fa";
 import { FaRegWindowClose } from "react-icons/fa";
 import { FaClipboard } from "react-icons/fa";
 
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 
-function page() {
+function Page() {
   const openMailPopup = () => {
     setMailButtonClicked(true);
   };
@@ -109,4 +107,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;

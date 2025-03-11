@@ -3,7 +3,7 @@ import TechStack from "@/components/TechStack";
 import React, { useState } from "react";
 import { FaAngleDoubleDown, FaAngleDoubleUp } from "react-icons/fa";
 
-function page() {
+function Page() {
   const [showFullStack, setShowFullStack] = useState(false);
 
   const toggleStack = () => {
@@ -105,4 +105,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;
