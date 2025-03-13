@@ -76,14 +76,14 @@ function Page() {
         </p>
         <div className="flex flex-col mt-4 text-3xl gap-1 w-80 transition-colors">
           <Link
-            href="/contact"
+            href="https://www.linkedin.com/in/ekin-akkaya-a61697209/"
             className="flex flex-row align-middle items-center justify-between border-2 p-1 bg-sky-300 hover:bg-sky-500 animate__animated animate__fadeInLeft "
           >
             <span className="">LinkedIn</span>
             <MdKeyboardDoubleArrowRight size={30} />
           </Link>
           <Link
-            href="/work"
+            href="https://www.instagram.com/ekinnakkaya/"
             className="flex flex-row align-middle items-center justify-between border-2 p-1 bg-red-300 hover:bg-red-400 animate__animated animate__fadeInLeft "
           >
             <span className="">Instagram</span>
