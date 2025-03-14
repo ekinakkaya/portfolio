@@ -15,6 +15,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "img.shields.io"
       },
+      {
+        protocol: "https",
+        hostname: "dummyimage.com"
+      },
     ],
     dangerouslyAllowSVG: true,
   },
