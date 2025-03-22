@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap');
-
 @import "tailwindcss";
-
 @import "animate.css";
+
+@plugin "@tailwindcss/typography";
 
 @theme {
   --font-orbitron: Orbitron, sans-serif;
@@ -22,6 +22,11 @@
 .animate-fadeInLeft {
   animation: fadeInLeft 1s ease-in-out;
 }
+
+html {
+  scroll-behavior: smooth;
+}
+
 
 
 /* .font-orbitron {

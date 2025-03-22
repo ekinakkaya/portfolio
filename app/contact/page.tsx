@@ -72,7 +72,7 @@ function Page() {
 
         <p className="mt-4 text-lg">
           You can reach out to me via LinkedIn, Instagram or Mail. Here are my
-          links:
+          links!
         </p>
         <div className="flex flex-col mt-4 text-3xl gap-1 w-80 transition-colors">
           <Link
@@ -91,6 +91,16 @@ function Page() {
           </Link>
 
           <Link
+            href="https://medium.com/@midamnuvas"
+            className=" flex flex-row align-middle items-center justify-between border-2 p-1 bg-slate-200 hover:bg-slate-400 animate__animated animate__fadeInLeft "
+          >
+            <div>
+              <p className="">Medium</p>
+            </div>
+            <MdKeyboardDoubleArrowRight size={30} />
+          </Link>
+
+          <Link
             href=""
             className=" mt-4 flex flex-row align-middle items-center justify-between border-2 p-1 hover:bg-sky-200 animate__animated animate__fadeInLeft "
             onClick={openMailPopup}
@@ -101,6 +111,7 @@ function Page() {
             </div>
             <MdKeyboardDoubleArrowRight size={30} />
           </Link>
+
         </div>
       </div>
     </>
