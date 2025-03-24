@@ -1,3 +1,4 @@
+import AdminEditButton from "@/components/AdminEditButton";
 import Image from "next/image";
 
 import Markdown from "react-markdown";
@@ -46,7 +47,8 @@ export default async function Page({
 
   return (
     <div className="min-h-screen p-8 flex flex-col align-middle items-center justify-self-center sm:max-w-[700px] gap-8">
-      {/* add editable image */}
+      <AdminEditButton id={id} />
+
       <div className="w-80 h-52 sm:w-96 sm:h-72 border-2 overflow-hidden relative">
         <Image
           src={project.image}
@@ -56,24 +58,21 @@ export default async function Page({
         />
       </div>
 
-      {/* add editable title */}
       <p className="text-4xl">
         {project.title} ({project.id})
       </p>
 
-      {/* add editable markdown */}
-      {/* <MarkdownEditor value={md} setValue={setMd}></MarkdownEditor> */}
       <div className="prose prose-lg flex flex-col items-center justify-center align-middle [&>*]:mt-0 [&>*]:mb-6">
         <Markdown remarkPlugins={[remarkGfm]}>{project.markdown}</Markdown>
       </div>
 
-      {/* add editable link */}
       {project.link && (
         <a className="text-3xl underline text-blue-500" href={project.link}>
           {" "}
           Github Link
         </a>
       )}
+
     </div>
   );
 }

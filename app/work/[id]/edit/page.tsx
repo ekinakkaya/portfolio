@@ -1,10 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import MarkdownEditor from "@/components/MarkdownEditor";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "@/lib/firebase";
+import { useRouter } from "next/navigation";
 
 const project = {
   id: 1,
@@ -41,6 +44,8 @@ A platform built with **Next.js 15** where entrepreneurs can:
 };
 
 function ProjectEditPage() {
+  const router = useRouter();
+
   const [markdown, setMarkdown] = useState(project.markdown || "");
 
   // this gets updated when the image link field changes
@@ -49,12 +54,24 @@ function ProjectEditPage() {
   // this gets updated when the "save" button is triggered
   const [imageLink, setImageLink] = useState(project.image || "");
 
+  const [loggedIn, setLoggedIn] = useState(false);
 
   function refetchProjectImage() {
     setImageLink(imageLinkField);
   }
 
-  return (
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setLoggedIn(true);
+      } else {
+        setLoggedIn(false);
+        router.replace(`/signin`)
+      }
+    });
+  }, []);
+
+  return loggedIn ? (
     <div className="min-h-screen p-8 flex flex-col align-middle items-center justify-self-center sm:max-w-[700px] gap-8">
       <p className="text-4xl">EDIT PROJECT</p>
 
@@ -161,8 +178,15 @@ function ProjectEditPage() {
         ></textarea>
       </div>
 
-      <button className="border-2 bg-green-100 p-4 text-3xl w-80"> Save Project</button>
+      <button className="border-2 bg-green-100 p-4 text-3xl w-80">
+        {" "}
+        Save Project
+      </button>
     </div>
+  ) : (
+    <>
+      <p>You need to be logged in to perform this action.</p>
+    </>
   );
 }
 

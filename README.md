@@ -20,16 +20,18 @@ pnpm dev
   - [x] prepare basic mockup
   - [x] add markdown support
 - [x] make the viewing page editable
-- [ ] make it so that the project is editable IF the user is admin
+- [x] make it so that the project is editable IF the user is admin
   - (we need auth for this but for now make the editing unlock with a isAdmin flag)
+- [x] add a "you are already signed in" logic to the signin page
 
 ### admin stuff
-- [ ] add a page for creating & editing projects.
+- [x] add a page for creating & editing projects.
 - [ ] add a button for creating projects
 - [ ] add a button for deleting projects
 - [ ] make it so that every 5 seconds, the project gets autosaved
 
 ## backend
+- [x] set up firebase auth
 - [ ] determine the data structure for the database
   - for now lets say that we will just have a table of "projects"
   - and we will have these fields
@@ -40,3 +42,5 @@ pnpm dev
     - image
     - link
   - on the frontend, we will render the description as markdown.
+- [ ] setup firebase and firestore
+- [ ] see all the projects in the projects folder
