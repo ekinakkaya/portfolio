@@ -49,6 +49,6 @@ pnpm dev
 - [x] setup firebase and firestore
 - [x] see all the projects in the projects folder
 - [x] fetch project by id
+- [ ] add new project
 - [ ] create new project
 - [ ] delete project
-- [ ] add new project

@@ -9,44 +9,20 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { useRouter, useParams } from "next/navigation";
 import { fetchProjectById } from "@/lib/projectsService";
-import { ProjectData } from "@/types/ProjectData";
-
-// const project = {
-//   id: 1,
-//   title: "YC Directory",
-//   description:
-//     "A Next.js 15 platform where entrepreneurs can submit their startup ideas for virtual pitch competitions, browse other pitches, and gain exposure through a clean minimalistic design for a smooth user experience.",
-//   markdown: `
-// A platform built with **Next.js 15** where entrepreneurs can:
-// - Submit their startup ideas for virtual pitch competitions
-// - Browse and discover other innovative pitches
-// - Gain exposure through a clean, minimalistic design focused on smooth user experience
-
-// ---
-
-// ## ✨ Features
-// - 🚀 Submit startup pitches easily
-// - 🔍 Explore pitches from other founders
-// - 🎨 Minimal and intuitive UI for better engagement
-// - 🏆 Virtual competitions to gain traction and feedback
-
-// ---
-
-// ## 📸 Screenshot
-// ![YC Directory Screenshot](https://github.com/ekinakkaya/yc_directory/blob/main/screenshot.png)
-
-// ---
-
-// ## 🔗 Live Project / Source Code
-// 👉 [Visit YC Directory on GitHub](https://github.com/ekinakkaya/yc_directory)
-//   `,
-//   image:
-//     "https://github.com/ekinakkaya/yc_directory/blob/main/screenshot.png?raw=true",
-//   link: "https://github.com/ekinakkaya/yc_directory",
-// };
 
 function ProjectEditPage() {
   const params = useParams();
+  const router = useRouter();
+
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [markdown, setMarkdown] = useState("");
+  const [imageLink, setImageLink] = useState(""); // this gets updated when the "save" button is triggered
+  const [link, setLink] = useState("");
+
+  const [imageLinkField, setImageLinkField] = useState(""); // this gets updated when the image link field changes
+
+  const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
     async function fetchProject(id: string) {
@@ -72,18 +48,6 @@ function ProjectEditPage() {
       }
     });
   }, []);
-
-  const router = useRouter();
-
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [markdown, setMarkdown] = useState("");
-  const [imageLink, setImageLink] = useState(""); // this gets updated when the "save" button is triggered
-  const [link, setLink] = useState("");
-
-  const [imageLinkField, setImageLinkField] = useState(""); // this gets updated when the image link field changes
-
-  const [loggedIn, setLoggedIn] = useState(false);
 
   function refetchProjectImage() {
     setImageLink(imageLinkField);
@@ -142,19 +106,19 @@ function ProjectEditPage() {
           className="p-2 w-full h-full text-base text-gray-900 bg-gray-50 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="Project Title..."
           value={title}
-          defaultValue={title || ""}
+          onChange={(e) => setTitle(e.target.value)}
         ></textarea>
       </div>
 
       {/* description */}
       <div className="w-full">
-        <label htmlFor="title">Short Description</label>
+        <label htmlFor="description">Short Description</label>
         <textarea
-          id="title"
+          id="description"
           className="p-2 w-full h-full text-base text-gray-900 bg-gray-50 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="Project Title..."
-          value={title}
-          defaultValue={title || ""}
+          placeholder="Short Project Description..."
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
           rows={4}
         ></textarea>
       </div>
@@ -208,6 +172,8 @@ function ProjectEditPage() {
           className="p-2 w-full h-full text-base text-gray-900 bg-gray-50 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="Project Link..."
           defaultValue={link}
+          value={link}
+          onChange={(e) => setLink(e.target.value)}
         ></textarea>
       </div>
 

@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { FirebaseError } from "firebase/app";
 
 function SignInPage() {
   const router = useRouter();
@@ -42,11 +43,16 @@ function SignInPage() {
       setErrorCode("");
       setErrorMessage("");
       toast.success("Logged in successfully");
-    } catch (error: any) {
-      setErrorCode(error.code);
-      setErrorMessage(error.message);
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        setErrorCode(error.code);
+        setErrorMessage(error.message);
+        toast.error(`Login failed: ${error.message}`);
+      } else {
+        console.error("Unknown login error", error);
+        toast.error("Something went wrong while logging in.");
+      }
       setUser(null);
-      toast.error(`Login failed: ${error.message}`);
     } finally {
       setLoading(false);
     }
@@ -58,7 +64,14 @@ function SignInPage() {
       toast.info("Logged out.");
       router.replace("/signin");
     } catch (error) {
-      toast.error("An error occurred while logging out.");
+      if (error instanceof FirebaseError) {
+        setErrorCode(error.code);
+        setErrorMessage(error.message);
+        toast.error(`Logout failed: ${error.message}`);
+      } else {
+        console.error("Unknown logout error", error);
+        toast.error("Something went wrong while logging out.");
+      }
     }
   };
 
