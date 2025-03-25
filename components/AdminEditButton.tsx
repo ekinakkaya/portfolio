@@ -7,7 +7,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-function EditButton({ id }: { id: number }) {
+function EditButton({ id }: { id: string }) {
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -36,7 +36,10 @@ function EditButton({ id }: { id: number }) {
     isLoggedIn && (
       <div className="w-80 flex flex-col items-center align-middle justify-center">
         <p className="text-3xl">You are an admin.</p>
-        <button className="w-80 bg-lime-200 p-4 text-3xl border-2 hover:bg-lime-400" onClick={() => router.push(`/work/${id}/edit`)}>
+        <button
+          className="w-80 bg-lime-200 p-4 text-3xl border-2 hover:bg-lime-400"
+          onClick={() => router.push(`/work/${id}/edit`)}
+        >
           Edit This Project
         </button>
         <div className="w-80 h-1 bg-gray-600 mt-8"></div>

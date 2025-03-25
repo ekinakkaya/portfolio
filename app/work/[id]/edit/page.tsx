@@ -7,52 +7,81 @@ import remarkGfm from "remark-gfm";
 import MarkdownEditor from "@/components/MarkdownEditor";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/lib/firebase";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
+import { fetchProjectById } from "@/lib/projectsService";
+import { ProjectData } from "@/types/ProjectData";
 
-const project = {
-  id: 1,
-  title: "YC Directory",
-  description:
-    "A Next.js 15 platform where entrepreneurs can submit their startup ideas for virtual pitch competitions, browse other pitches, and gain exposure through a clean minimalistic design for a smooth user experience.",
-  markdown: `
-A platform built with **Next.js 15** where entrepreneurs can:
-- Submit their startup ideas for virtual pitch competitions  
-- Browse and discover other innovative pitches  
-- Gain exposure through a clean, minimalistic design focused on smooth user experience
+// const project = {
+//   id: 1,
+//   title: "YC Directory",
+//   description:
+//     "A Next.js 15 platform where entrepreneurs can submit their startup ideas for virtual pitch competitions, browse other pitches, and gain exposure through a clean minimalistic design for a smooth user experience.",
+//   markdown: `
+// A platform built with **Next.js 15** where entrepreneurs can:
+// - Submit their startup ideas for virtual pitch competitions
+// - Browse and discover other innovative pitches
+// - Gain exposure through a clean, minimalistic design focused on smooth user experience
 
----
+// ---
 
-## ✨ Features
-- 🚀 Submit startup pitches easily
-- 🔍 Explore pitches from other founders
-- 🎨 Minimal and intuitive UI for better engagement
-- 🏆 Virtual competitions to gain traction and feedback
+// ## ✨ Features
+// - 🚀 Submit startup pitches easily
+// - 🔍 Explore pitches from other founders
+// - 🎨 Minimal and intuitive UI for better engagement
+// - 🏆 Virtual competitions to gain traction and feedback
 
----
+// ---
 
-## 📸 Screenshot
-![YC Directory Screenshot](https://github.com/ekinakkaya/yc_directory/blob/main/screenshot.png)
+// ## 📸 Screenshot
+// ![YC Directory Screenshot](https://github.com/ekinakkaya/yc_directory/blob/main/screenshot.png)
 
----
+// ---
 
-## 🔗 Live Project / Source Code  
-👉 [Visit YC Directory on GitHub](https://github.com/ekinakkaya/yc_directory)
-  `,
-  image:
-    "https://github.com/ekinakkaya/yc_directory/blob/main/screenshot.png?raw=true",
-  link: "https://github.com/ekinakkaya/yc_directory",
-};
+// ## 🔗 Live Project / Source Code
+// 👉 [Visit YC Directory on GitHub](https://github.com/ekinakkaya/yc_directory)
+//   `,
+//   image:
+//     "https://github.com/ekinakkaya/yc_directory/blob/main/screenshot.png?raw=true",
+//   link: "https://github.com/ekinakkaya/yc_directory",
+// };
 
 function ProjectEditPage() {
+  const params = useParams();
+
+  useEffect(() => {
+    async function fetchProject(id: string) {
+      const p = await fetchProjectById(id);
+
+      setTitle(p?.title || "");
+      setDescription(p?.description || "");
+      setMarkdown(p?.markdown || "");
+      setImageLink(p?.image || "");
+      setImageLinkField(p?.image || "");
+      setLink(p?.link || "");
+    }
+
+    const id = params.id as string;
+    fetchProject(id);
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setLoggedIn(true);
+      } else {
+        setLoggedIn(false);
+        router.replace(`/signin`);
+      }
+    });
+  }, []);
+
   const router = useRouter();
 
-  const [markdown, setMarkdown] = useState(project.markdown || "");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [markdown, setMarkdown] = useState("");
+  const [imageLink, setImageLink] = useState(""); // this gets updated when the "save" button is triggered
+  const [link, setLink] = useState("");
 
-  // this gets updated when the image link field changes
-  const [imageLinkField, setImageLinkField] = useState(project.image || "");
-
-  // this gets updated when the "save" button is triggered
-  const [imageLink, setImageLink] = useState(project.image || "");
+  const [imageLinkField, setImageLinkField] = useState(""); // this gets updated when the image link field changes
 
   const [loggedIn, setLoggedIn] = useState(false);
 
@@ -60,29 +89,20 @@ function ProjectEditPage() {
     setImageLink(imageLinkField);
   }
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setLoggedIn(true);
-      } else {
-        setLoggedIn(false);
-        router.replace(`/signin`)
-      }
-    });
-  }, []);
-
   return loggedIn ? (
     <div className="min-h-screen p-8 flex flex-col align-middle items-center justify-self-center sm:max-w-[700px] gap-8">
       <p className="text-4xl">EDIT PROJECT</p>
 
       {/* image */}
       <div className="w-80 h-52 sm:w-96 sm:h-72 border-2 overflow-hidden relative">
-        <Image
-          src={imageLink}
-          alt={project.title}
-          fill
-          className="object-cover"
-        />
+        {imageLink && (
+          <Image
+            src={imageLink}
+            alt={title || ""}
+            fill
+            className="object-cover"
+          />
+        )}
       </div>
 
       {/* image link */}
@@ -92,7 +112,6 @@ function ProjectEditPage() {
           id="image-link"
           className="p-2 w-full h-full text-base text-gray-900 bg-gray-50 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="Image Link..."
-          // defaultValue={project.image}
           value={imageLinkField}
           onChange={(e) => setImageLinkField(e.target.value)}
           rows={8}
@@ -122,7 +141,21 @@ function ProjectEditPage() {
           id="title"
           className="p-2 w-full h-full text-base text-gray-900 bg-gray-50 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="Project Title..."
-          defaultValue={project.title}
+          value={title}
+          defaultValue={title || ""}
+        ></textarea>
+      </div>
+
+      {/* description */}
+      <div className="w-full">
+        <label htmlFor="title">Short Description</label>
+        <textarea
+          id="title"
+          className="p-2 w-full h-full text-base text-gray-900 bg-gray-50 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          placeholder="Project Title..."
+          value={title}
+          defaultValue={title || ""}
+          rows={4}
         ></textarea>
       </div>
 
@@ -174,7 +207,7 @@ function ProjectEditPage() {
           id="project-link"
           className="p-2 w-full h-full text-base text-gray-900 bg-gray-50 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="Project Link..."
-          defaultValue={project.link}
+          defaultValue={link}
         ></textarea>
       </div>
 
@@ -184,9 +217,11 @@ function ProjectEditPage() {
       </button>
     </div>
   ) : (
-    <>
-      <p>You need to be logged in to perform this action.</p>
-    </>
+    <div className="flex items-center justify-center align-middle w-screen h-screen">
+      <p className="text-3xl p-4 text-center">
+        If you are not logged in, please login.
+      </p>
+    </div>
   );
 }
 

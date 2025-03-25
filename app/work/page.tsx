@@ -75,20 +75,22 @@ import { fetchProjects } from "@/lib/projectsService";
 // }
 
 async function Page() {
-  const projectsData = await fetchProjects();
-  const projects = projectsData.map(p => p.toFirestore())
+  const projects = await fetchProjects();
+
   return (
     <div className="flex flex-col min-h-screen p-8 justify-start items-center sm:gap-16">
       <span className="text-3xl mt-2 mb-4 underline">my work</span>
 
       <div className=" flex gap-4 justify-center align-center flex-wrap">
-        {projects.map((element) => (
+        {projects.map((element, index) => (
           <ProjectCard
-            key={element.id}
+            // key={element.id}
+            key={index}
             title={element.title}
             description={element.description}
             image={element.image}
-            link={element.link}
+            // link={element.link}
+            link={`/work/${element.docId}`}
           />
         ))}
       </div>
