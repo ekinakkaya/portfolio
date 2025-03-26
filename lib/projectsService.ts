@@ -6,7 +6,6 @@ import {
   doc,
   getDoc,
   getDocs,
-  getDocsFromServer,
   onSnapshot,
   setDoc,
   updateDoc,
