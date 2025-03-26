@@ -18,19 +18,10 @@ const ProjectCard = ({ title, description, image, link }: ProjectCardProps) => {
         animate__animated animate__fadeInLeft animate__faster
       "
       >
-        {/* <div className=" w-80 h-52 sm:w-96 sm:h-72 border-2 overflow-hidden">
-          <div className=" overflow-hidden relative ">
-            <Image src={image} alt="" fill className="object-cover"/>
-          </div>
-        </div> */}
-        {/* Image container with fixed size */}
         <div className="w-80 h-52 sm:w-96 sm:h-72 border-2 overflow-hidden relative">
-          <Image
-            src={image}
-            alt={title}
-            fill
-            className="object-cover"
-          />
+          {image && (
+            <Image src={image} alt={title} fill className="object-cover" />
+          )}
         </div>
         <h1 className="text-2xl pt-2 underline">{title}</h1>
         <p className="text-base pt-2 sm:max-w-3/4 text-pretty">{description}</p>

@@ -8,10 +8,13 @@ import MarkdownEditor from "@/components/MarkdownEditor";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { useRouter, useParams } from "next/navigation";
-import { fetchProjectById } from "@/lib/projectsService";
+import { fetchProjectById, saveProject } from "@/lib/projectsService";
+import { ProjectData } from "@/types/ProjectData";
 
 function ProjectEditPage() {
   const params = useParams();
+  const id = params.id as string;
+
   const router = useRouter();
 
   const [title, setTitle] = useState("");
@@ -23,6 +26,23 @@ function ProjectEditPage() {
   const [imageLinkField, setImageLinkField] = useState(""); // this gets updated when the image link field changes
 
   const [loggedIn, setLoggedIn] = useState(false);
+
+  const [isSaving, setIsSaving] = useState(false);
+
+  async function save() {
+    setIsSaving(true);
+    await saveProject(
+      new ProjectData({
+        docId: id,
+        title: title,
+        description: description,
+        markdown: markdown,
+        image: imageLink,
+        link: link,
+      })
+    );
+    setIsSaving(false);
+  }
 
   useEffect(() => {
     async function fetchProject(id: string) {
@@ -36,7 +56,6 @@ function ProjectEditPage() {
       setLink(p?.link || "");
     }
 
-    const id = params.id as string;
     fetchProject(id);
 
     onAuthStateChanged(auth, (user) => {
@@ -51,6 +70,9 @@ function ProjectEditPage() {
 
   function refetchProjectImage() {
     setImageLink(imageLinkField);
+  }
+
+  if (isSaving) {
   }
 
   return loggedIn ? (
@@ -177,7 +199,10 @@ function ProjectEditPage() {
         ></textarea>
       </div>
 
-      <button className="border-2 bg-green-100 p-4 text-3xl w-80">
+      <button
+        className="border-2 bg-green-100 p-4 text-3xl w-80"
+        onClick={save}
+      >
         {" "}
         Save Project
       </button>

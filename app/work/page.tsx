@@ -2,6 +2,7 @@ import ProjectCard from "@/components/ProjectCard";
 import React from "react";
 
 import { fetchProjects } from "@/lib/projectsService";
+import NewProjectButton from "@/components/NewProjectButton";
 
 // interface ProjectData {
 //   id: number;
@@ -93,7 +94,10 @@ async function Page() {
             link={`/work/${element.docId}`}
           />
         ))}
+
+        <NewProjectButton/>
       </div>
+
     </div>
   );
 }

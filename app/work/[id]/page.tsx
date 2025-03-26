@@ -1,3 +1,4 @@
+import AdminDeleteButton from "@/components/AdminDeleteButton";
 import AdminEditButton from "@/components/AdminEditButton";
 import { fetchProjectById } from "@/lib/projectsService";
 import Image from "next/image";
@@ -20,12 +21,14 @@ export default async function Page({
         <AdminEditButton id={id} />
 
         <div className="w-80 h-52 sm:w-96 sm:h-72 border-2 overflow-hidden relative">
-          <Image
-            src={project.image}
-            alt={project.title}
-            fill
-            className="object-cover"
-          />
+          {project.image && (
+            <Image
+              src={project.image}
+              alt={project.title}
+              fill
+              className="object-cover"
+            />
+          )}
         </div>
 
         <p className="text-4xl">{project.title}</p>
@@ -40,6 +43,7 @@ export default async function Page({
             Github Link
           </a>
         )}
+        <AdminDeleteButton id={id} />
       </div>
     )
   );

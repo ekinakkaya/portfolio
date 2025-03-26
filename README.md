@@ -26,12 +26,13 @@ pnpm dev
 - [x] on signin page, make it so that enter key triggers a login
 - [x] fetch the actual project data on project details page
 - [x] fetch the actual project data on project edit page
+- [x] add functionality to the save button in the edit page
 - [ ] in the edit page, the "please login" screen shows up for a second even if we are logged in, fix it
 
 ### admin stuff
 - [x] add a page for creating & editing projects.
-- [ ] add a button for creating projects
-- [ ] add a button for deleting projects
+- [x] add a button for creating projects
+- [x] add a button for deleting projects
 - [ ] make it so that every 5 seconds, the project gets autosaved
 
 ## backend
@@ -49,6 +50,6 @@ pnpm dev
 - [x] setup firebase and firestore
 - [x] see all the projects in the projects folder
 - [x] fetch project by id
-- [ ] add new project
-- [ ] create new project
-- [ ] delete project
+- [x] create new project
+- [x] delete project
+- [x] save project

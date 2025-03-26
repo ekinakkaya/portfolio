@@ -1,6 +1,17 @@
 import { ProjectData } from "@/types/ProjectData";
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+  Timestamp,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "./firebase";
+import { randomInt } from "crypto";
 
 const DB_DOC_NAME = "projects";
 
@@ -26,3 +37,31 @@ export const fetchProjectById = async (
 
   return ProjectData.fromFirestore(docSnap);
 };
+
+export const saveProject = async (p: ProjectData) => {
+  if (p.docId) {
+    const docRef = doc(db, DB_DOC_NAME, p.docId);
+    updateDoc(docRef, {
+      ...p,
+    });
+  } else {
+    const newDocRef = doc(collection(db, DB_DOC_NAME));
+    await setDoc(newDocRef, p);
+  }
+};
+
+export const createNewProject = async () => {
+  // const docRef = await addDoc(
+  await addDoc(
+    collection(db, DB_DOC_NAME),
+    new ProjectData({
+      title: "New Document ",
+      description: "" + new Date(),
+    }).toFirestore()
+  );
+};
+
+
+export const deleteProject = async (id: string) => {
+  await deleteDoc(doc(db, DB_DOC_NAME, id));
+}

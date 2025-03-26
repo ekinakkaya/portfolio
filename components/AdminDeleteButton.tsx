@@ -6,8 +6,9 @@ import { auth } from "@/lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { deleteProject } from "@/lib/projectsService";
 
-function EditButton({ id }: { id: string }) {
+function AdminDeleteButton({ id }: { id: string }) {
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -18,33 +19,32 @@ function EditButton({ id }: { id: string }) {
   function getLogin() {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/auth.user
-        // const uid = user.uid;
-        // ...
-
         setIsLoggedIn(true);
       } else {
-        // User is signed out
-        // ...
         setIsLoggedIn(false);
       }
+    });
+  }
+
+  async function onDeleteProjectClick() {
+    await deleteProject(id).then(() => {
+      router.replace("/work");
     });
   }
 
   return (
     isLoggedIn && (
       <div className="w-80 flex flex-col items-center align-middle justify-center">
+        <div className="w-80 h-1 bg-gray-600 mb-8"></div>
         <button
-          className="w-80 bg-lime-200 p-4 text-3xl border-2 hover:bg-lime-400"
-          onClick={() => router.push(`/work/${id}/edit`)}
+          className="w-80 bg-rose-300 p-4 text-2xl border-2 hover:bg-rose-500"
+          onClick={onDeleteProjectClick}
         >
-          Edit This Project
+          Delete This Project
         </button>
-        <div className="w-80 h-1 bg-gray-600 mt-8"></div>
       </div>
     )
   );
 }
 
-export default EditButton;
+export default AdminDeleteButton;
