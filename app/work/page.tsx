@@ -1,8 +1,7 @@
-import ProjectCard from "@/components/ProjectCard";
 import React from "react";
 
-import { fetchProjects } from "@/lib/projectsService";
 import NewProjectButton from "@/components/NewProjectButton";
+import ProjectsList from "@/components/ProjectsList";
 
 // interface ProjectData {
 //   id: number;
@@ -76,14 +75,14 @@ import NewProjectButton from "@/components/NewProjectButton";
 // }
 
 async function Page() {
-  const projects = await fetchProjects();
+  // const projects = await fetchProjects();
 
   return (
     <div className="flex flex-col min-h-screen p-8 justify-start items-center sm:gap-16">
       <span className="text-3xl mt-2 mb-4 underline">my work</span>
 
       <div className=" flex gap-4 justify-center align-center flex-wrap">
-        {projects.map((element, index) => (
+        {/* {projects.map((element, index) => (
           <ProjectCard
             // key={element.id}
             key={index}
@@ -93,7 +92,9 @@ async function Page() {
             // link={element.link}
             link={`/work/${element.docId}`}
           />
-        ))}
+        ))} */}
+
+        <ProjectsList/>
 
         <NewProjectButton/>
       </div>

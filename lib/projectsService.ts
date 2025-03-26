@@ -6,6 +6,8 @@ import {
   doc,
   getDoc,
   getDocs,
+  getDocsFromServer,
+  onSnapshot,
   setDoc,
   updateDoc,
 } from "firebase/firestore";
@@ -59,7 +61,19 @@ export const createNewProject = async () => {
   );
 };
 
-
 export const deleteProject = async (id: string) => {
   await deleteDoc(doc(db, DB_DOC_NAME, id));
-}
+};
+
+export const subscribeToProjects = (
+  callback: (projects: ProjectData[]) => void
+) => {
+  const colRef = collection(db, DB_DOC_NAME);
+
+  const unsubscribe = onSnapshot(colRef, (snapshot) => {
+    const projects = snapshot.docs.map((doc) => ProjectData.fromFirestore(doc));
+    callback(projects);
+  });
+
+  return unsubscribe;
+};
