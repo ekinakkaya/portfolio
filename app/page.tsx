@@ -33,7 +33,6 @@ export default function Home() {
           width={300}
           height={300}
           className=""
-          // placeholder="blur"
         />
       </div>
       <div>

@@ -28,6 +28,9 @@ pnpm dev
 - [x] fetch the actual project data on project edit page
 - [x] add functionality to the save button in the edit page
 - [ ] in the edit page, the "please login" screen shows up for a second even if we are logged in, fix it
+- [ ] after editing the project and going back, the project details do not get updated immediately. fix it
+- [ ] in the edit page, the description box forces the width of the div get bigger. fix it
+- [ ] when the document is saved, there should be an indicator that it is saved successfully.
 
 ### admin stuff
 - [x] add a page for creating & editing projects.
@@ -37,7 +40,7 @@ pnpm dev
 
 ## backend
 - [x] set up firebase auth
-- [ ] determine the data structure for the database
+- [x] determine the data structure for the database
   - for now lets say that we will just have a table of "projects"
   - and we will have these fields
     - id
