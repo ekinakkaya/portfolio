@@ -7,11 +7,9 @@ import {
   getDoc,
   getDocs,
   setDoc,
-  Timestamp,
   updateDoc,
 } from "firebase/firestore";
 import { db } from "./firebase";
-import { randomInt } from "crypto";
 
 const DB_DOC_NAME = "projects";
 
